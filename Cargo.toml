@@ -1,0 +1,13 @@
+[package]
+name = "llvm-pass-skeleton"
+description = "A useless LLVM pass"
+authors = ["Ethan Uppal"]
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "skeleton_pass"
+crate-type = ["cdylib"]
+
+[dependencies]
+llvm-plugin = { version = "0.6.0", features = ["llvm18-0"] }

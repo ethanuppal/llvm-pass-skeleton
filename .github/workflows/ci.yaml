@@ -1,0 +1,47 @@
+
+name: CI
+
+on:
+  push:
+    branches:
+     - main
+  pull_request:
+    branches:
+     - main
+
+env:
+  CARGO_INCREMENTAL: 1
+
+jobs:
+  check_build_macos:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.85
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Install LLVM
+        run: brew install just llvm@18
+
+      - name: Test the LLVM pass
+        run: |
+          export LLVM_SYS_180_PREFIX=$(/bin/sh prefix.sh)
+          cargo build || (cargo clean && cargo build)
+          $LLVM_SYS_180_PREFIX/bin/clang -S -emit-llvm -o out.ll test.c
+          $LLVM_SYS_180_PREFIX/bin/opt --load-pass-plugin="target/debug/libskeleton_pass.dylib" --passes=skeleton-pass -disable-output out.ll
+  check_build_ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.85
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Install LLVM
+        run: sudo apt-get -y install llvm-18
+
+      - name: Test the LLVM pass
+        run: |
+          export LLVM_SYS_180_PREFIX=$(/bin/sh prefix.sh)
+          cargo build || (cargo clean && cargo build)
+          $LLVM_SYS_180_PREFIX/bin/clang -S -emit-llvm -o out.ll test.c
+          $LLVM_SYS_180_PREFIX/bin/opt --load-pass-plugin="target/debug/libskeleton_pass.so" --passes=skeleton-pass -disable-output out.ll
