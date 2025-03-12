@@ -1,6 +1,8 @@
 A completely useless LLVM pass. It's for LLVM 18. This is the Rust version of
 [sampsyo/llvm-pass-skeleton](https://github.com/sampsyo/llvm-pass-skeleton).
 
+See the `mutate` branch for a slightly less skeletal example.
+
 1. Build:
 ```shell
 export LLVM_SYS_180_PREFIX=$(/bin/sh prefix.sh)
