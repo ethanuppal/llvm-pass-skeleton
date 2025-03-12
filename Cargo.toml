@@ -10,4 +10,5 @@ name = "skeleton_pass"
 crate-type = ["cdylib"]
 
 [dependencies]
+either = "1.5"                                               # for inkwell: https://github.com/TheDan64/inkwell/issues/580
 llvm-plugin = { version = "0.6.0", features = ["llvm18-0"] }

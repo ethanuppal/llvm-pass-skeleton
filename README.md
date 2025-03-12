@@ -15,11 +15,11 @@ $LLVM_SYS_180_PREFIX/bin/clang -S -emit-llvm -o out.ll test.c
 3. Run:
    - **macOS**:
      ```shell
-     $LLVM_SYS_180_PREFIX/bin/opt --load-pass-plugin="target/debug/libskeleton_pass.dylib" --passes=skeleton-pass -disable-output out.ll
+     $LLVM_SYS_180_PREFIX/bin/opt --load-pass-plugin="target/debug/libskeleton_pass.dylib" --passes=replace-first-add-pass -disable-output out.ll
      ```
    - **Linux**:
      ```shell
-     $LLVM_SYS_180_PREFIX/bin/opt --load-pass-plugin="target/debug/libskeleton_pass.so" --passes=skeleton-pass -disable-output out.ll
+     $LLVM_SYS_180_PREFIX/bin/opt --load-pass-plugin="target/debug/libskeleton_pass.so" --passes=replace-first-add-pass -disable-output out.ll
      ```
 
 It can be useful to put these commands in a `Makefile`, `Justfile`, or shell
